@@ -1,0 +1,14 @@
+.circle {
+    display: inline-table;
+    vertical-align: middle;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+  
+  .circle__content {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    color: white;
+  }

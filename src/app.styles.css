@@ -1,0 +1,32 @@
+#page {
+  display: grid;
+  grid-template-columns: min-content 1fr;
+}
+
+.sidebar {
+  background-color: pink;
+  width: 225px;
+  height: 100vh;
+  background: #f0f0f0;
+}
+
+main {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: min-content 1fr;
+  overflow-y: auto;
+}
+
+main .topbar {
+  position: sticky;
+  top: 0;
+  padding: 32px 24px;
+  border-bottom: 0.5px solid #e8eaef;
+  background-color: #fff;
+}
+
+main .topbar span {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+}
