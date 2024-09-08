@@ -1,7 +1,7 @@
 import React from 'react'
 import './card.css'
 
-export default function Card({type, data, buttonText}) {
+export default function Card({type, data, buttonText, result}) {
     const badgeColor = (txt) => {
         switch (txt) {
             case 'New':
@@ -12,6 +12,12 @@ export default function Card({type, data, buttonText}) {
                 return ({backgroundColor:'white'});
         }
     }
+
+
+    const submit = (s) => {
+        result(s)
+    }
+
   return (
     <div>
         <div className='d-flex gap-2 mb-2'>
@@ -22,7 +28,7 @@ export default function Card({type, data, buttonText}) {
         </div>
 
         {data?.map((i) =>
-            <div className="shadow">
+            <div className="shadow" key={i?.id}>
                 <div className="card-body">
                     <p className="card-text text-secondary">Order #{i?.id}</p>
                     <p className="card-title">{i?.space?.name} {i?.pricelist?.name}</p>
@@ -34,7 +40,7 @@ export default function Card({type, data, buttonText}) {
                     </div>
                     <div className='d-flex justify-content-between'>
                         <h5>{i?.location}</h5>
-                        <button className='btn btn-primary'>{buttonText} <span class="material-symbols-outlined align-middle">arrow_forward</span></button>
+                        <button className='btn btn-primary' onClick={() => {submit(i)}}>{buttonText} <span class="material-symbols-outlined align-middle">arrow_forward</span></button>
                     </div>
                 </div>
             </div>

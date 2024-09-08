@@ -1,13 +1,42 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Card from './Card';
 import Data from '../data/orders.json'
 
 export const OrdersBoard = () => {
-  //I have worked for API call method so, when status change it will reload the data on orderboard page.
-  //if i didnt use filter we can achive status change process by add onClick function to button. update status in object using usesstate data
-  const newOrders = Data?.filter(i => i?.status === 'New')
-  const activeOrders = Data?.filter(i => i?.status === 'Active')
-  const readyOrder = Data?.filter(i => i?.status === 'Ready')
+
+  const [orders, setOrders] = useState()
+  const [newOrders, setNewOrders] = useState()
+  const [activeOrders, setActiveOrders] = useState()
+  const [readyOrders, setReadyOrders] = useState()
+
+  useEffect(() => {
+    setOrders(Data)
+  },[])
+
+  useEffect(() => {
+    setNewOrders(orders?.filter(i => i?.status === 'New'))
+    setActiveOrders(orders?.filter(i => i?.status === 'Active'))
+    setReadyOrders(orders?.filter(i => i?.status === 'Ready'))
+  },[orders])
+
+
+  const updateStatus = (status) => {
+    switch (status) {
+      case "New":
+          return ({status: 'Active'});
+      case "Active":
+          return ({status: 'Ready'});
+      case "Ready":
+          return ({status: 'Complete'});
+      default:
+          return({status})
+    }
+  }
+  const orderChange = (data) => {
+    const update = updateStatus(data?.status)
+    setOrders(orders?.map((o) => o?.id === data?.id ? {...o, ...update} : o))
+  }
+
   return (
     <span className='row' style={{ margin: 24 }}>
       <div className='col-4'>
@@ -15,6 +44,7 @@ export const OrdersBoard = () => {
           type = 'New'
           data = {newOrders}
           buttonText = "Approve"
+          result = {orderChange}
         />}
       </div>
 
@@ -23,14 +53,16 @@ export const OrdersBoard = () => {
           type = 'Active'
           data = {activeOrders}
           buttonText = "Complete"
+          result = {orderChange}
         />}
       </div>
 
       <div className='col-4'>
-        {readyOrder && <Card
+        {readyOrders && <Card
           type = 'Ready'
-          data = {readyOrder}
+          data = {readyOrders}
           buttonText = "Ready"
+          result = {orderChange}
         />}
       </div>
     </span>
